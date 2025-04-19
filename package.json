@@ -1,0 +1,41 @@
+{
+  "name": "correspondencia",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon --exec node src/index.js",
+    "lint": "eslint . --ext .js",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vechegaray23/correspondencia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vechegaray23/correspondencia/issues"
+  },
+  "homepage": "https://github.com/Vechegaray23/correspondencia#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "pg": "^8.14.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^8.57.1",
+    "@eslint/json": "^0.12.0",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-import": "^2.31.0",
+    "globals": "^13.24.0",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.5.3"
+  }
+}
