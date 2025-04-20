@@ -6,6 +6,9 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+// Health‑check internal (Ruta raíz para Railway)
+app.get('/', (_req, res) => res.json({ status: 'ok' }));
+
 // Health‑check
 app.get('/api/health', async (_, res) => {
   try {
