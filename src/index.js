@@ -9,16 +9,16 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Root health‑check (para Railway y probes de infraestructura)
+// Ruta raíz para probes de infraestructura (Railway, load‑balancers, etc.)
 app.get('/', (_req, res) => {
   res.json({ status: 'ok' });
 });
 
-// Versioned API v1 health‑check
+// API versionada v1: health‑check
 app.use('/api/v1/health', healthRouter);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
-);
+export default app;
+
+
+
 
