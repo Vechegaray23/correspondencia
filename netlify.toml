@@ -1,8 +1,13 @@
-# netlify.toml
 [build]
-  base    = "client"                # entra a client/
+  base    = "client"
   command = "npm ci && npm run build"
-  publish = "dist"                  # publica client/dist (no client/client/dist)
+  publish = "dist"
 
 [build.environment]
-  # (opcional) añade aquí VITE_API_URL si lo necesitas
+  # VITE_API_URL, etc.
+
+# <<< Esto es lo que debe ir al final >>>
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
