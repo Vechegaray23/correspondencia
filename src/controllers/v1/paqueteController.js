@@ -1,4 +1,4 @@
-import { pool } from '../../db/pool.js';
+import pool from '../../db/pool.js';
 
 /**
  * POST /api/v1/paquetes
