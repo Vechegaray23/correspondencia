@@ -4,7 +4,6 @@ export default function Health() {
   const [status, setStatus] = useState('loading');
 
   useEffect(() => {
-    // fetch('/api/v1/health')
     fetch('https://correspondencia-production-c826.up.railway.app/api/v1/health')
       .then(r => r.json())
       .then(json => setStatus(json.status))
