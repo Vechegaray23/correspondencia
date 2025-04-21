@@ -4,18 +4,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-
-    "start": "node src/server.js",
-
-    "dev":      "nodemon src/server.js",
-    "lint": "eslint src --ext .js",
-    "format": "prettier --write .",
-    "test": "echo \"No tests specified\" && exit 0",
-    "migrate:local": "psql -U vicenteechegaray -d correspondencia -f migrations/*.sql",
-    "migrate:up": "node-pg-migrate up --database-url \"$DATABASE_URL\" --dir migrations --extension sql",
-    "migrate:down": "node-pg-migrate down --database-url \"$DATABASE_URL\" --dir migrations --extension sql",
-    "build:client": "cd client && npm ci && npm run build"
-
+  "start": "node src/server.js",
+  "dev":   "nodemon src/server.js",
+  "migrate:up":   "node-pg-migrate up --database-url \"$DATABASE_URL\" --dir migrations --extension sql",
+  "migrate:down": "node-pg-migrate down --database-url \"$DATABASE_URL\" --dir migrations --extension sql"
   },
   "repository": {
     "type": "git",
