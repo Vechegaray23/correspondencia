@@ -1,0 +1,5 @@
+# netlify.toml
+[build]
+  base    = "client"
+  command = "npm ci && npm run build"
+  publish = "client/build"
