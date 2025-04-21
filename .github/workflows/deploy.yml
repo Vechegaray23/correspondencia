@@ -1,0 +1,61 @@
+name: Migrate → Build → Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  migrate:
+    name: Run DB migrations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install server dependencies
+        run: npm ci
+
+      - name: Run migrations
+        run: npm run migrate:up
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+  build_and_deploy:
+    name: Build & Deploy
+    needs: migrate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install CLIs
+        run: npm install -g railway netlify-cli
+
+      - name: Install all dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: |
+          cd client
+          npm ci
+          npm run build
+
+      - name: Deploy frontend to Netlify
+        run: netlify deploy --prod --dir=client/dist --site=$NETLIFY_SITE_ID
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Deploy backend to Railway
+        run: railway up --environment production
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
