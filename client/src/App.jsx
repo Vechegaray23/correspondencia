@@ -1,28 +1,21 @@
-import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home.jsx';
+import Health from './pages/Health.jsx';
+import RegisterPaquete from './pages/RegisterPaquete.jsx';
 
-export default function NavBar() {
+export default function App() {
   return (
-    <Navbar bg="light" expand="lg" className="shadow-sm mb-4">
-      <Container>
-        <LinkContainer to="/">
-          <Navbar.Brand>Mi App</Navbar.Brand>
-        </LinkContainer>
-        <Navbar.Toggle aria-controls="main-navbar-nav" />
-        <Navbar.Collapse id="main-navbar-nav">
-          <Nav className="ms-auto">
-            <LinkContainer to="/">
-              <Nav.Link>Home</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/health">
-              <Nav.Link>Health Check</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/register">
-              <Nav.Link>Registrar Paquete</Nav.Link>
-            </LinkContainer>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <>
+      <nav>
+        <Link to="/">Home</Link>{' | '}
+        <Link to="/health">Health Check</Link>{' | '}
+        <Link to="/register">Registrar Paquete</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/health" element={<Health />} />
+        <Route path="/register" element={<RegisterPaquete />} />
+      </Routes>
+    </>
   );
 }
