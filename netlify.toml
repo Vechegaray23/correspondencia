@@ -1,9 +1,8 @@
-# netlify.toml (en la raíz de tu repo)
+# netlify.toml
 [build]
-  base    = "client"                 # entra a client/
-  command = "npm ci && npm run build"  # corre install+build allí
-  publish = "build"                  # publica client/build
+  base    = "client"                # entra a client/
+  command = "npm ci && npm run build"
+  publish = "dist"                  # publica client/dist (no client/client/dist)
 
 [build.environment]
-  # opcional: define aquí tus vars (si usas VITE_API_URL)
-  # VITE_API_URL = "https://correspondencia-production-c826.up.railway.app"
+  # (opcional) añade aquí VITE_API_URL si lo necesitas
