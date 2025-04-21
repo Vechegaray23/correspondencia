@@ -1,55 +1,55 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Container, Form, Button, Alert } from 'react-bootstrap';
 
 export default function RegisterPaquete() {
-  const [depto, setDepto] = useState('');
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
+  const [depto, setDepto]       = useState('');
+  const [success, setSuccess]   = useState('');
+  const [error, setError]       = useState('');
 
-  const handleSubmit = async (e) => {  console.log('Calling API at →', import.meta.env.VITE_API_URL + '/api/v1/paquetes');
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(null);
+    setError(''); setSuccess('');
     try {
-      const base = import.meta.env.VITE_API_URL;
-      //const res = await fetch(`${base}/api/v1/paquetes`, {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/paquetes`, {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/v1/paquetes`,
+        {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ depto }),
         }
       );
-      if (!res.ok) throw new Error('Error al registrar');
+      if (!res.ok) throw new Error(`Status ${res.status}`);
       const data = await res.json();
-      // Usamos concatenación para evitar backticks
-      setSuccess('Paquete (ID: ' + data.id + ') registrado.');
+      setSuccess(`Paquete (ID: ${data.id}) registrado.`);
       setDepto('');
-      // opcional: descomenta para auto-redirigir
-      // setTimeout(function() { navigate('/health'); }, 2000);
+      setTimeout(() => navigate('/health'), 2000);
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>Registrar Paquete</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Departamento:
-          <input
+    <Container style={{ maxWidth: '500px' }}>
+      <h2 className="mb-4">Registrar Paquete</h2>
+      {success && <Alert variant="success">{success}</Alert>}
+      {error   && <Alert variant="danger">Error: {error}</Alert>}
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="depto" className="mb-3">
+          <Form.Label>Departamento</Form.Label>
+          <Form.Control
             type="text"
+            placeholder="Ej. 101A"
             value={depto}
             onChange={(e) => setDepto(e.target.value)}
             required
-            style={{ margin: '0 0.5rem' }}
           />
-        </label>
-        <button type="submit">Registrar</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>❌ {error}</p>}
-      {success && <p style={{ color: 'green' }}>✅ {success}</p>}
-    </div>
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Registrar
+        </Button>
+      </Form>
+    </Container>
   );
 }
