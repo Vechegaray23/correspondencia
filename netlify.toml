@@ -1,12 +1,16 @@
+# netlify.toml
+
 [build]
-  base    = "client"
+  base    = "client"         # Trabaja dentro de client/
   command = "npm ci && npm run build"
-  publish = "dist"
+  publish = "dist"           # Publica client/dist (no client/client/dist)
 
+# Variables de entorno, si las necesitas
 [build.environment]
-  # VITE_API_URL, etc.
+  VITE_API_URL = "https://correspondencia-production-c826.up.railway.app"
 
-# <<< Esto es lo que debe ir al final >>>
+# Fallback para rutas de SPA (BrowserRouter no es necesario ya que usas HashRouter,
+# pero lo dejamos por si algún día cambias de vuelta)
 [[redirects]]
   from   = "/*"
   to     = "/index.html"
