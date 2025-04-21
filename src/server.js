@@ -5,14 +5,14 @@ import { initDb } from './initDb.js';
 
 const PORT = process.env.PORT || 3000;
 
-// Primero creamos la tabla si no existe, y sólo entonces levantamos Express
 initDb()
   .then(() => {
+    console.log('✅ Base de datos inicializada');
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+      console.log('API corriendo en http://localhost:' + PORT);
     });
   })
   .catch((err) => {
-    console.error('Fallo al inicializar la BD:', err);
+    console.error('❌ Error al inicializar la BD:', err);
     process.exit(1);
   });
