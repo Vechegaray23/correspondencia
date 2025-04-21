@@ -1,13 +1,11 @@
 {
   "name": "correspondencia",
-  "version": "1.0.0",
   "type": "module",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-  "start": "node src/server.js",
-  "dev":   "nodemon src/server.js",
-  "migrate:up":   "node-pg-migrate up --database-url \"$DATABASE_URL\" --dir migrations --extension sql",
-  "migrate:down": "node-pg-migrate down --database-url \"$DATABASE_URL\" --dir migrations --extension sql"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -22,10 +20,12 @@
   "homepage": "https://github.com/Vechegaray23/correspondencia#readme",
   "description": "",
   "dependencies": {
+    "bootstrap": "^5.3.5",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "pg": "^8.14.1"
+    "pg": "^8.14.1",
+    "react-bootstrap": "^2.10.9"
   },
   "devDependencies": {
     "@eslint/js": "^8.57.1",
