@@ -13,7 +13,8 @@ export default function RegisterPaquete() {
     setSuccess(null);
     try {
       const base = import.meta.env.VITE_API_URL;
-      const res = await fetch(`${base}/api/v1/paquetes`, {
+      //const res = await fetch(`${base}/api/v1/paquetes`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/paquetes`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ depto }),
