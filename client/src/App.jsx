@@ -5,6 +5,8 @@ import Health from './pages/Health.jsx';
 import RegisterPaquete from './pages/RegisterPaquete.jsx';
 import LoginConserje from './pages/LoginConserje.jsx';
 import LoginResidente from './pages/LoginResidente.jsx';
+import DashboardConserje from './pages/DashboardConserje.jsx';
+import DashboardResidente from './pages/DashboardResidente.jsx';
 
 export default function App() {
   return (
@@ -28,32 +30,57 @@ export default function App() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto mb-2 mb-sm-0">
               <li className="nav-item">
-                <Link className="nav-link" to="/">Home</Link>
+                <Link className="nav-link" to="/">
+                  Home
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/health">Health Check</Link>
+                <Link className="nav-link" to="/health">
+                  Health Check
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/register">Registrar Paquete</Link>
+                <Link className="nav-link" to="/register">
+                  Registrar Paquete
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/login/conserje">Login Conserje</Link>
+                <Link className="nav-link" to="/login/conserje">
+                  Login Conserje
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/login/residente">Login Residente</Link>
+                <Link className="nav-link" to="/login/residente">
+                  Login Residente
+                </Link>
               </li>
             </ul>
           </div>
         </div>
       </nav>
 
-      <Routes>
-        <Route path="/login/conserje" element={<LoginConserje />} />
-        <Route path="/login/residente" element={<LoginResidente />} />
-        <Route path="/"         element={<Home />} />
-        <Route path="/health"   element={<Health />} />
-        <Route path="/register" element={<RegisterPaquete />} />
-      </Routes>
+      <div className="container">
+        <Routes>
+          {/* Login */}
+          <Route path="/login/conserje" element={<LoginConserje />} />
+          <Route path="/login/residente" element={<LoginResidente />} />
+
+          {/* Páginas públicas */}
+          <Route path="/" element={<Home />} />
+          <Route path="/health" element={<Health />} />
+          <Route path="/register" element={<RegisterPaquete />} />
+
+          {/* Dashboards protegidos */}
+          <Route
+            path="/dashboard/conserje"
+            element={<DashboardConserje />}
+          />
+          <Route
+            path="/dashboard/residente"
+            element={<DashboardResidente />}
+          />
+        </Routes>
+      </div>
     </>
   );
 }
