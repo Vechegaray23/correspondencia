@@ -1,10 +1,14 @@
 import React from 'react';
+import ResidenteNavbar from '../components/ResidenteNavbar.jsx';
 
 export default function DashboardResidente() {
   return (
-    <div className="container">
-      <h1>Panel de Residente</h1>
-      <p>Bienvenido, residente. Aquí irán tus funcionalidades.</p>
-    </div>
+    <>
+      <ResidenteNavbar />
+      <div className="container mt-5">
+        <h2>Panel de Residente</h2>
+        <p>Bienvenido, residente. Aquí verás tu correspondencia.</p>
+      </div>
+    </>
   );
 }
