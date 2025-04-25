@@ -12,7 +12,7 @@ export default function LoginResidente() {
     setError('');
     try {
       const res = await fetch(
-        \`\${import.meta.env.VITE_API_URL}/api/v1/auth/login\`,
+        `${import.meta.env.VITE_API_URL}/api/v1/auth/login`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -20,14 +20,15 @@ export default function LoginResidente() {
         }
       );
       const data = await res.json();
+      console.log('LoginResidente response:', res.status, data);
       if (!res.ok) throw new Error(data.error || res.statusText);
 
       localStorage.setItem('token', data.token);
       localStorage.setItem('role', data.role);
 
-      // Al login de residente redirigimos a su dashboard
       navigate('/dashboard/residente');
     } catch (err) {
+      console.error('Error en login residente:', err);
       setError(err.message);
     }
   };
