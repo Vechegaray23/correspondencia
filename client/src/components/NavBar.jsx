@@ -1,25 +1,25 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, Form, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 export default function NavBar() {
   return (
-    <Navbar bg="light" expand="lg" className="mb-4">
-      <Container>
+    <Navbar bg="dark" variant="dark" expand="sm" className="mb-4">
+      <Container fluid>
         <LinkContainer to="/">
           <Navbar.Brand>Correspondencia</Navbar.Brand>
         </LinkContainer>
-        <Navbar.Toggle aria-controls="main-nav" />
-        <Navbar.Collapse id="main-nav">
+        <Navbar.Toggle aria-controls="mynavbar" />
+        <Navbar.Collapse id="mynavbar">
           <Nav className="me-auto">
             <LinkContainer to="/">
               <Nav.Link>Home</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/health">
-              <Nav.Link>Health Check</Nav.Link>
+              <Nav.Link>Health Check</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/register">
-              <Nav.Link>Registrar Paquete</Nav.Link>
+              <Nav.Link>Registrar Paquete</Nav.Link>
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>
