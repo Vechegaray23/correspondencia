@@ -11,11 +11,6 @@ export default function DashboardConserje() {
         <p>Bienvenido, conserje. Aquí puedes gestionar tus paquetes.</p>
 
         <hr />
-
-        <section className="mt-4">
-          <h3>Registrar Nuevo Paquete</h3>
-          <RegisterPaquete />
-        </section>
       </div>
     </>
   );
