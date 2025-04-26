@@ -9,7 +9,7 @@ export default function ConserjeNavbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-primary">
+    <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/dashboard/conserje">
           Panel Conserje

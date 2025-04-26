@@ -7,7 +7,6 @@ export default function DashboardConserjeRegister() {
     <>
       <ConserjeNavbar />
       <div className="container mt-5">
-        <h2>Registrar Paquete (Área Conserje)</h2>
         <RegisterPaquete />
       </div>
     </>
