@@ -1,55 +1,60 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Form, Button, Alert } from 'react-bootstrap';
 
 export default function RegisterPaquete() {
+  const [depto, setDepto] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
-  const [depto, setDepto]       = useState('');
-  const [success, setSuccess]   = useState('');
-  const [error, setError]       = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); setSuccess('');
+    setError('');
+    setSuccess(false);
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/v1/paquetes`,
+        \`\${import.meta.env.VITE_API_URL}/api/v1/paquetes\`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ depto }),
         }
       );
-      if (!res.ok) throw new Error(`Status ${res.status}`);
       const data = await res.json();
-      setSuccess(`Paquete (ID: ${data.id}) registrado.`);
+      if (!res.ok) throw new Error(data.message || res.statusText);
+
+      setSuccess(true);
       setDepto('');
-      setTimeout(() => navigate('/health'), 2000);
+
+      // **Redirige a la vista de registro privado** (o al dashboard principal si prefieres)
+      navigate('/dashboard/conserje/register');
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <Container style={{ maxWidth: '500px' }}>
-      <h2 className="mb-4">Registrar Paquete</h2>
-      {success && <Alert variant="success">{success}</Alert>}
-      {error   && <Alert variant="danger">Error: {error}</Alert>}
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="depto" className="mb-3">
-          <Form.Label>Departamento</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Ej. 101A"
-            value={depto}
-            onChange={(e) => setDepto(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Registrar
-        </Button>
-      </Form>
-    </Container>
+    <form onSubmit={handleSubmit} style={{ maxWidth: '400px' }}>
+      {error && <div className="alert alert-danger">{error}</div>}
+      {success && (
+        <div className="alert alert-success">
+          Paquete registrado correctamente.
+        </div>
+      )}
+      <div className="mb-3">
+        <label className="form-label">Departamento</label>
+        <input
+          type="text"
+          className="form-control"
+          value={depto}
+          onChange={(e) => setDepto(e.target.value)}
+          placeholder="Ej: 101A"
+          required
+        />
+      </div>
+      <button type="submit" className="btn btn-primary w-100">
+        Registrar
+      </button>
+    </form>
   );
 }
