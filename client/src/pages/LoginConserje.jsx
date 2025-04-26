@@ -1,4 +1,3 @@
-// client/src/pages/LoginConserje.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -119,7 +118,7 @@ export default function LoginConserje() {
                 <div className="col-lg-6 d-flex align-items-center" style={{ backgroundColor: 'WhiteSmoke' }} >
 
                  <img
-                        src="/public/delivery_guy.png"
+                        src="/delivery_guy.png"
                         style={{ width: '185px' }}
                         alt="logo"
                   />
