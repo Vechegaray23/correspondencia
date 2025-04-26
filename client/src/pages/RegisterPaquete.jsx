@@ -13,7 +13,7 @@ export default function RegisterPaquete() {
     setSuccess(false);
     try {
       const res = await fetch(
-        \`\${import.meta.env.VITE_API_URL}/api/v1/paquetes\`,
+        `${import.meta.env.VITE_API_URL}/api/v1/paquetes`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -26,7 +26,7 @@ export default function RegisterPaquete() {
       setSuccess(true);
       setDepto('');
 
-      // **Redirige a la vista de registro privado** (o al dashboard principal si prefieres)
+      // Mantente en la página privada tras el registro
       navigate('/dashboard/conserje/register');
     } catch (err) {
       setError(err.message);
