@@ -7,8 +7,9 @@ export default function ConserjeNavbar() {
     localStorage.clear();
     navigate('/');
   };
+
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
+    <nav className="navbar navbar-expand-sm navbar-dark bg-primary">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/dashboard/conserje">
           Panel Conserje
@@ -29,6 +30,11 @@ export default function ConserjeNavbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/dashboard/conserje">
                 Inicio
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/register">
+                Registrar Paquete
               </Link>
             </li>
             <li className="nav-item">
