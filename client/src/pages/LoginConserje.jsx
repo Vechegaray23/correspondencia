@@ -41,7 +41,7 @@ export default function LoginConserje() {
                   <div className="card-body p-md-5 mx-md-4">
                     <div className="text-center">
                       <img
-                        src="/public/box.png"
+                        src="/box.png"
                         style={{ width: '150px' }}
                         alt="logo"
                       />
