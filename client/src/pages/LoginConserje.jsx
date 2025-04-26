@@ -30,14 +30,14 @@ export default function LoginConserje() {
   };
 
   return (
-    <section className="h-100 gradient-form" style={{ backgroundColor: '#eee' }}>
+    <section className="" style={{ backgroundColor: 'DimGrey' }}>
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-xl-10">
             <div className="card rounded-3 text-black">
               <div className="row g-0">
                 {/* Lado izquierdo: formulario */}
-                <div className="col-lg-6">
+                <div className="col-lg-6" style={{ backgroundColor: 'DimGrey' }} >
                   <div className="card-body p-md-5 mx-md-4">
                     <div className="text-center">
                       <img
@@ -45,7 +45,7 @@ export default function LoginConserje() {
                         style={{ width: '185px' }}
                         alt="logo"
                       />
-                      <h4 className="mt-1 mb-5 pb-1">We are The Lotus Team</h4>
+                      <h4 className="mt-1 mb-5 pb-1">Iniciar Sesión</h4>
                     </div>
 
                     {error && (
@@ -55,7 +55,7 @@ export default function LoginConserje() {
                     )}
 
                     <form onSubmit={handleSubmit}>
-                      <p>Please login to your account</p>
+                      <p>Ingrese sus credenciales.</p>
 
                       <div className="form-outline mb-4">
                         <input
@@ -68,7 +68,7 @@ export default function LoginConserje() {
                           required
                         />
                         <label className="form-label" htmlFor="form2Example11">
-                          Username
+                          Usuario
                         </label>
                       </div>
 
@@ -83,30 +83,29 @@ export default function LoginConserje() {
                           required
                         />
                         <label className="form-label" htmlFor="form2Example22">
-                          Password
+                          Contraseña
                         </label>
                       </div>
 
                       <div className="text-center pt-1 mb-5 pb-1">
                         <button
                           type="submit"
-                          className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+                          className="btn text-white btn-block fa-lg  mb-3"
+                          style={{ backgroundColor: 'Salmon' }}
                         >
                           Log in
                         </button>
-                        <a className="text-muted" href="#!">
-                          Forgot password?
-                        </a>
+
                       </div>
 
                       <div className="d-flex align-items-center justify-content-center pb-4">
-                        <p className="mb-0 me-2">Don't have an account?</p>
+                        <p className="mb-0 me-2">No tienes una cuenta?</p>
                         <button
                           type="button"
                           className="btn btn-outline-danger"
                           onClick={() => navigate('/')}
                         >
-                          Create new
+                          Crear cuenta
                         </button>
                       </div>
                     </form>
@@ -114,7 +113,7 @@ export default function LoginConserje() {
                 </div>
 
                 {/* Lado derecho: contenido estático */}
-                <div className="col-lg-6 d-flex align-items-center gradient-custom-2">
+                <div className="col-lg-6 d-flex align-items-center" style={{ backgroundColor: 'Salmon' }} >
                   <div className="text-white px-3 py-4 p-md-5 mx-md-4">
                     <h4 className="mb-4">We are more than just a company</h4>
                     <p className="small mb-0">
