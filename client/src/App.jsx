@@ -37,12 +37,6 @@ export default function App() {
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav me-auto mb-2 mb-sm-0">
                 <li className="nav-item">
-                  <Link className="nav-link" to="/">Home</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/health">Health Check</Link>
-                </li>
-                <li className="nav-item">
                   <Link className="nav-link" to="/register">Registrar Paquete</Link>
                 </li>
                 <li className="nav-item">
