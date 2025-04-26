@@ -33,7 +33,7 @@ export default function ConserjeNavbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/register">
+              <Link className="nav-link" to="/dashboard/conserje/register">
                 Registrar Paquete
               </Link>
             </li>
