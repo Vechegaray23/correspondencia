@@ -1,3 +1,4 @@
+// client/src/pages/LoginConserje.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,14 +12,12 @@ export default function LoginConserje() {
     e.preventDefault();
     setError('');
     try {
-      const res = await fetch(
-        \`\${import.meta.env.VITE_API_URL}/api/v1/auth/login\`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password }),
-        }
-      );
+      const url = import.meta.env.VITE_API_URL + '/api/v1/auth/login';
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || res.statusText);
 
@@ -37,9 +36,9 @@ export default function LoginConserje() {
           <div className="col-xl-10">
             <div className="card rounded-3 text-black">
               <div className="row g-0">
+                {/* Lado izquierdo: formulario */}
                 <div className="col-lg-6">
                   <div className="card-body p-md-5 mx-md-4">
-
                     <div className="text-center">
                       <img
                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
@@ -50,7 +49,9 @@ export default function LoginConserje() {
                     </div>
 
                     {error && (
-                      <div className="alert alert-danger">{error}</div>
+                      <div className="alert alert-danger">
+                        {error}
+                      </div>
                     )}
 
                     <form onSubmit={handleSubmit}>
@@ -109,20 +110,21 @@ export default function LoginConserje() {
                         </button>
                       </div>
                     </form>
-
                   </div>
                 </div>
+
+                {/* Lado derecho: contenido estático */}
                 <div className="col-lg-6 d-flex align-items-center gradient-custom-2">
                   <div className="text-white px-3 py-4 p-md-5 mx-md-4">
                     <h4 className="mb-4">We are more than just a company</h4>
                     <p className="small mb-0">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                     </p>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
