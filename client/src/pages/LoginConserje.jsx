@@ -41,11 +41,14 @@ export default function LoginConserje() {
                   <div className="card-body p-md-5 mx-md-4">
                     <div className="text-center">
                       <img
-                        src="client/public/delivery_guy.png"
-                        style={{ width: '185px' }}
+                        src="/public/box.png"
+                        style={{ width: '150px' }}
                         alt="logo"
                       />
-                      <h4 className="mt-1 mb-5 pb-1">Iniciar Sesión</h4>
+                    </div>
+
+                    <div className="text-center">
+                    <h4 className="mt-1 mb-5 pb-1">Bienvenido</h4>
                     </div>
 
                     {error && (
@@ -91,7 +94,7 @@ export default function LoginConserje() {
                         <button
                           type="submit"
                           className="btn text-white btn-block fa-lg  mb-3"
-                          style={{ backgroundColor: 'Salmon' }}
+                          style={{ backgroundColor: 'RoyalBlue' }}
                         >
                           Log in
                         </button>
@@ -114,7 +117,13 @@ export default function LoginConserje() {
 
                 {/* Lado derecho: contenido estático */}
                 <div className="col-lg-6 d-flex align-items-center" style={{ backgroundColor: 'WhiteSmoke' }} >
-                  <div className="text-white px-3 py-4 p-md-5 mx-md-4">
+
+                 <img
+                        src="/public/delivery_guy.png"
+                        style={{ width: '185px' }}
+                        alt="logo"
+                  />
+                  <div className=" px-3 py-4 p-md-5 mx-md-4">
                     <h4 className="mb-4">We are more than just a company</h4>
                     <p className="small mb-0">
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
