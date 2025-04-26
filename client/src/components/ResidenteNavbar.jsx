@@ -9,7 +9,7 @@ export default function ResidenteNavbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-success">
+    <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/dashboard/residente">
           Panel Residente
