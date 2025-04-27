@@ -26,3 +26,17 @@ export async function getPaquetes(req, res) {
     res.status(500).json({ error: 'Error al listar paquetes' });
   }
 }
+
+export async function deletePaquete(req, res) {
+  const { id } = req.params;
+  try {
+    await pool.query(
+        'DELETE FROM paquetes WHERE id = $1',
+        [id]
+      );
+    res.json({ success: true });
+    } catch (err) {
+      console.error('Error al eliminar paquete:', err);
+      res.status(500).json({ error: 'Error al eliminar paquete' });
+    }
+}
