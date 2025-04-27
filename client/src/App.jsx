@@ -11,6 +11,8 @@ import DashboardConserje from './pages/DashboardConserje.jsx';
 import DashboardResidente from './pages/DashboardResidente.jsx';
 import DashboardConserjeRegister from './pages/DashboardConserjeRegister.jsx';
 
+import PaquetesCustodia from './pages/PaquetesCustodia.jsx';
+
 export default function App() {
   const { pathname } = useLocation();
   const isDashboard = pathname.startsWith('/dashboard');
@@ -61,6 +63,7 @@ export default function App() {
 
           {/* Dashboards */}
           <Route path="/dashboard/conserje" element={<DashboardConserje />} />
+          <Route path="/dashboard/conserje/custodia" element={<PaquetesCustodia />} />
           <Route
             path="/dashboard/conserje/register"
             element={<DashboardConserjeRegister />}

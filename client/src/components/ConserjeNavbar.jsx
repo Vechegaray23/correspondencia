@@ -27,11 +27,13 @@ export default function ConserjeNavbar() {
         </button>
         <div className="collapse navbar-collapse" id="dashNavC">
           <ul className="navbar-nav me-auto">
+
             <li className="nav-item">
-              <Link className="nav-link" to="/dashboard/conserje">
-                Inicio
+              <Link className="nav-link" to="/dashboard/conserje/custodia">
+                Paquetes Custodia
               </Link>
             </li>
+
             <li className="nav-item">
               <Link className="nav-link" to="/dashboard/conserje/register">
                 Registrar Paquete
