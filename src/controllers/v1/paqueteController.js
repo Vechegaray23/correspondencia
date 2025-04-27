@@ -14,3 +14,15 @@ export async function createPaquete(req, res) {
     res.status(500).json({ error: err.message });
   }
 }
+
+export async function getPaquetes(req, res) {
+  try {
+    const { rows } = await pool.query(
+      'SELECT id, depto, fecha_ingreso, estado FROM paquetes ORDER BY id DESC'
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error('Error al listar paquetes:', err);
+    res.status(500).json({ error: 'Error al listar paquetes' });
+  }
+}
