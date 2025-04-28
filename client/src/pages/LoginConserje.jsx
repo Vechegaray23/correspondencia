@@ -26,10 +26,12 @@ export default function LoginConserje() {
     } catch (err) {
       setError(err.message);
     }
+
+    
   };
 
   return (
-    <section className="" style={{ backgroundColor: 'RoyalBlue' }}>
+    <section className="container-fluid px-0" style={{ backgroundColor: 'RoyalBlue', minHeight: '100vh' }}>
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-xl-10">
