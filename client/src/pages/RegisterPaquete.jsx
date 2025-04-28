@@ -38,9 +38,9 @@ export default function RegisterPaquete() {
   }
 
   return (
-    <div className="container-fluid px-1 py-5 mx-auto">
+    <div className="container-fluid px-1 py-5 mx-auto bg-primary bg-opacity-25">
       <div className="row d-flex justify-content-center">
-        <div className="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+        <div className="col-xl-7 col-lg-8 col-md-9 col-11 text-center bg-light">
           <h3>Registrar Paquete</h3>
           <p className="blue-text">
             Completa los datos del paquete para su seguimiento.
