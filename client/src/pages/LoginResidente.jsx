@@ -22,6 +22,8 @@ export default function LoginResidente() {
 
       localStorage.setItem('token', data.token)
       localStorage.setItem('role',  data.role)
+      localStorage.setItem('depto', data.depto)
+
       navigate('/dashboard/residente')
     } catch (err) {
       setError(err.message)
