@@ -1,15 +1,9 @@
-import ResidenteNavbar     from '../components/ResidenteNavbar.jsx';
-import PaquetesResidente   from './PaquetesResidente.jsx';
+import PaquetesResidente from './PaquetesResidente.jsx';
 
 /**
- * El dashboard del residente se limita
- * a mostrar su navbar + la tabla de paquetes.
+ * El dashboard del residente solo delega en PaquetesResidente,
+ * que ya incluye su propio navbar.
  */
 export default function DashboardResidente() {
-  return (
-    <>
-      <ResidenteNavbar />
-      <PaquetesResidente />
-    </>
-  );
+  return <PaquetesResidente />;
 }
