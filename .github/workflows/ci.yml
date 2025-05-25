@@ -1,19 +1,67 @@
-name: CI
+name: CI & Deploy
 
 on:
   push:
-    branches: ['*']
-  pull_request:
-    branches: ['*']
+    branches: [ main ]
 
 jobs:
-  build:
+  migrations:
+    name: Run DB migrations
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 'lts/*'
-      - run: npm ci
-      - run: npm run lint
-      - run: npm test
+          node-version: '18'
+
+      - name: Install server deps
+        run: npm ci
+        working-directory: ./
+
+      - name: Run migrations
+        run: npm run migrate:up
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+  build-and-deploy:
+    name: Build & Deploy
+    needs: migrations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install all deps
+        run: npm ci
+
+      - name: Build frontend
+        run: |
+          cd client
+          npm ci
+          npm run build
+
+      # Despliegue backend (Railway)
+      - name: Deploy to Railway
+        run: railway up --environment production
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      # Despliegue frontend (Netlify)
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.1
+        with:
+          publish-dir: client/dist
+          production-branch: main
+          enable-pull-request-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

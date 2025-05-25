@@ -1,4 +1,3 @@
-// client/src/pages/RegisterPaquete.jsx
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,6 +7,7 @@ export default function RegisterPaquete() {
   const [destinatario, setDestinatario] = useState('')
   const [comentarios, setComentarios]   = useState('')
   const [urgencia, setUrgencia]         = useState(false)
+  const [email, setEmail]               = useState('')
   const [error, setError]               = useState('')
   const navigate = useNavigate()
 
@@ -25,7 +25,8 @@ export default function RegisterPaquete() {
             receptor,
             destinatario,
             comentarios,
-            urgencia
+            urgencia,
+            email
           })
         }
       )
@@ -96,6 +97,22 @@ export default function RegisterPaquete() {
                 </div>
                 <div className="form-group col-sm-6 flex-column d-flex">
                   <label className="form-control-label px-3">
+                    Correo destinatario<span className="text-danger"> *</span>
+                  </label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    placeholder="ejemplo@dominio.cl"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="row justify-content-between text-left">
+                <div className="form-group col-sm-6 flex-column d-flex">
+                  <label className="form-control-label px-3">
                     Urgencia
                   </label>
                   <div className="form-check mt-2">
@@ -114,10 +131,7 @@ export default function RegisterPaquete() {
                     </label>
                   </div>
                 </div>
-              </div>
-
-              <div className="row justify-content-between text-left">
-                <div className="form-group col-12 flex-column d-flex">
+                <div className="form-group col-sm-6 flex-column d-flex">
                   <label className="form-control-label px-3">
                     Comentarios
                   </label>

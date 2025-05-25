@@ -1,3 +1,4 @@
+/* src/index.js*/
 import express from 'express';
 import cors    from 'cors';
 
@@ -6,7 +7,9 @@ import { getHealth }           from './controllers/v1/healthController.js';
 import {
   createPaquete,
   getPaquetes,
-  deletePaquete
+  deletePaquete,
+  updatePaqueteEstado
+
 } from './controllers/v1/paqueteController.js';
 
 const app = express();
@@ -26,5 +29,7 @@ app.get('/api/v1/health', getHealth);
 app.get   ('/api/v1/paquetes',     getPaquetes);    // lista (opcional ?depto=101A)
 app.post  ('/api/v1/paquetes',     createPaquete);  // registrar uno nuevo
 app.delete('/api/v1/paquetes/:id', deletePaquete);  // eliminar / marcar entregado
+app.patch('/api/v1/paquetes/:id/estado', updatePaqueteEstado); // ← NUEVA
+
 
 export default app;

@@ -1,9 +1,15 @@
 import { Router } from 'express';
-import { createPaquete } from '../../controllers/v1/paqueteController.js';
+import {
+  createPaquete,
+  getPaquetes,
+  updatePaqueteEstado,          // ← nuevo handler
+} from '../../controllers/v1/paqueteController.js';
 
 const router = Router();
 
-// POST /api/v1/paquetes
-router.post('/', createPaquete);
+/* ─────────── Rutas paquetes ─────────── */
+router.post('/', createPaquete);                // Crear
+router.get('/',  getPaquetes);                  // Listar
+router.patch('/:id/estado', updatePaqueteEstado); // Cambiar estado
 
 export default router;

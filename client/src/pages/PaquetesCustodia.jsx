@@ -1,4 +1,3 @@
-// client/src/pages/PaquetesCustodia.jsx
 import React, { useState, useEffect } from 'react'
 import ConserjeNavbar from '../components/ConserjeNavbar.jsx'
 
@@ -23,8 +22,25 @@ export default function PaquetesCustodia() {
     fetchPaquetes()
   }, [])
 
+  // Marcar paquete como entregado y enviar notificaciones
+  const handleEntregar = async (id) => {
+    const email = window.prompt('Ingresa el correo del destinatario para la notificación:')
+    if (!email) return
+    try {
+      const res = await fetch(`${API}/${id}/estado`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: 'entregado', email }),
+      })
+      if (!res.ok) throw new Error('Error al cambiar estado')
+      fetchPaquetes()
+    } catch (err) {
+      alert(err.message)
+    }
+  }
+
   const handleDelete = async (id) => {
-    if (!window.confirm('¿Eliminar este paquete?')) return
+    if (!window.confirm('¿Eliminar este paquete definitivamente?')) return
     try {
       const res = await fetch(`${API}/${id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error('Error al eliminar paquete')
@@ -79,11 +95,13 @@ export default function PaquetesCustodia() {
                             <td>{pkg.estado}</td>
                             <td>
                               <button
+                                className="btn btn-success btn-sm me-2"
+                                onClick={() => handleEntregar(pkg.id)}
+                              >Entregar</button>
+                              <button
                                 className="btn btn-danger btn-sm px-3"
                                 onClick={() => handleDelete(pkg.id)}
-                              >
-                                <i className="fas fa-times" />
-                              </button>
+                              ><i className="fas fa-times" /></button>
                             </td>
                           </tr>
                         )) : (
