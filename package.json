@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js",
+    "build": "tsc",
+    "start": "node dist/server.js",
     "dev": "node --import dotenv/config --loader ts-node/esm src/server.js"
   },
   "repository": {
