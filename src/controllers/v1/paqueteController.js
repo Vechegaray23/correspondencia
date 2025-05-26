@@ -16,7 +16,7 @@ export async function createPaquete(req, res) {
       `INSERT INTO paquetes
          (depto, receptor, destinatario, comentarios, urgencia)
        VALUES ($1, $2, $3, $4, $5)
-       RETURNING id, destinatario`,
+       RETURNING id, destinatario, estado`,
       [depto, receptor, destinatario, comentarios, urgencia]
     );
     const pkg = pkgRows[0];
@@ -30,7 +30,7 @@ export async function createPaquete(req, res) {
     if (userRows.length) {
       const { email, phone } = userRows[0];
 
-      // 3) Enviar correo y SMS
+      // 3) Enviar notificación de nuevo paquete (correo y SMS)
       nuevoPaquete(
         { id: pkg.id, destinatario: pkg.destinatario, phone },
         email
@@ -103,7 +103,7 @@ export async function updatePaqueteEstado(req, res) {
       `UPDATE paquetes
           SET estado = $1
         WHERE id     = $2
-      RETURNING id, destinatario,estado, depto`,
+      RETURNING id, destinatario, estado, depto`,
       [estado, id]
     );
 
@@ -121,7 +121,6 @@ export async function updatePaqueteEstado(req, res) {
 
     if (userRows.length) {
       const { email, phone } = userRows[0];
-      // Enviar notificación de estado con SMS y correo
       estadoActualizado(
         { id: pkg.id, estado: pkg.estado, phone },
         email
