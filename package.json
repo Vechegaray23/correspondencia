@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node --import dotenv/config --loader ts-node/esm src/server.js",
+    "start": "node dist/server.js",
     "dev": "node --import dotenv/config --loader ts-node/esm src/server.js"
   },
   "repository": {
