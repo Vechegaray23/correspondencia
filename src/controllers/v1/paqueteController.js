@@ -23,7 +23,7 @@ export async function createPaquete(req, res) {
 
     // 2) Obtener datos de contacto del usuario residente
     const { rows: userRows } = await pool.query(
-      `SELECT email, phone FROM usuarios WHERE depto = $1`,
+      `SELECT mail AS email, phone FROM usuarios WHERE depto = $1`,
       [depto]
     );
 
@@ -115,7 +115,7 @@ export async function updatePaqueteEstado(req, res) {
 
     // Obtener datos de contacto del residente
     const { rows: userRows } = await pool.query(
-      `SELECT email, phone FROM usuarios WHERE depto = $1`,
+      `SELECT mail AS email, phone FROM usuarios WHERE depto = $1`,
       [pkg.depto]
     );
 
