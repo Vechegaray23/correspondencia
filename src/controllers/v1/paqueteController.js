@@ -4,6 +4,15 @@ import {
   estadoActualizado,
 } from '../../infra/notifications/NotificationService.js';
 
+// ☆ DEBUG: endpoint para inspeccionar el SQL activo  
+import { Router } from 'express';
+const debugRouter = Router();
+debugRouter.get('/_debug/pkg-sql', (req, res) => {
+  res.json({
+    createQuery: `INSERT INTO paquetes (depto, receptor, destinatario, comentarios, urgencia) VALUES ($1, $2, $3, $4, $5) RETURNING id, destinatario, estado`,
+    userLookup: `SELECT mail AS email, phone FROM usuarios WHERE depto = $1`
+  });
+});
 /* ------------------------------------------------------------------ */
 /* 1. Crear paquete (con notificación automática)                     */
 /* ------------------------------------------------------------------ */
