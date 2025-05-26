@@ -8,7 +8,7 @@ import pRetry from 'p-retry';
 const mailer = createTransport({
   host:   process.env.SMTP_HOST ?? 'smtp.gmail.com',
   port:   Number(process.env.SMTP_PORT ?? '465'),
-  secure: true,                       // SSL directo
+  secure: true,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
@@ -16,14 +16,11 @@ const mailer = createTransport({
 });
 
 export const mailerUp = !!(process.env.SMTP_USER && process.env.SMTP_PASS);
-
-export const smsUp = !!(process.env.TWILIO_SID && process.env.TWILIO_TOKEN);
-
+export const smsUp    = !!(process.env.TWILIO_SID && process.env.TWILIO_TOKEN && process.env.TWILIO_FROM);
 
 /* ------------------------------------------------------------------ */
 /* 2.  Twilio (opcional)                                              */
 /* ------------------------------------------------------------------ */
-// ② Usa el flag smsUp para inicializar sms
 let sms: ReturnType<typeof twilio> | null = null;
 if (smsUp) {
   sms = twilio(process.env.TWILIO_SID!, process.env.TWILIO_TOKEN!);
@@ -35,7 +32,7 @@ if (smsUp) {
 export async function sendEmail(
   to: string,
   subject: string,
-  html: string | undefined,
+  html?: string,
   text?: string,
 ) {
   await pRetry(
@@ -52,11 +49,11 @@ export async function sendEmail(
 }
 
 export async function sendSMS(to: string, body: string) {
-  if (!sms || !process.env.TWILIO_FROM) return; // SMS deshabilitado
+  if (!sms) return;
   await pRetry(
     () =>
       sms!.messages.create({
-        from: process.env.TWILIO_FROM,
+        from: process.env.TWILIO_FROM!,
         to,
         body,
       }),
@@ -68,23 +65,23 @@ export async function sendSMS(to: string, body: string) {
 /* 4.  Casos de uso de negocio                                        */
 /* ------------------------------------------------------------------ */
 export async function nuevoPaquete(
-  pkg: { id: number; destinatario: string },
+  pkg: { id: number; destinatario: string; phone?: string },
   email: string,
 ) {
   const texto = `Se recibió un paquete para ${pkg.destinatario}.`;
   await sendEmail(email, `Nuevo paquete #${pkg.id}`, undefined, texto);
-  if (process.env.USER_PHONE) {
-    await sendSMS(process.env.USER_PHONE, `Paquete #${pkg.id} recibido.`);
+  if (sms && pkg.phone) {
+    await sendSMS(pkg.phone, `Paquete #${pkg.id} recibido.`);
   }
 }
 
 export async function estadoActualizado(
-  pkg: { id: number; estado: string },
+  pkg: { id: number; estado: string; phone?: string },
   email: string,
 ) {
   const texto = `Tu paquete cambió al estado «${pkg.estado}».`;
   await sendEmail(email, `Paquete #${pkg.id} – estado: ${pkg.estado}`, undefined, texto);
-  if (process.env.USER_PHONE) {
-    await sendSMS(process.env.USER_PHONE, `Paquete #${pkg.id} → ${pkg.estado}`);
+  if (sms && pkg.phone) {
+    await sendSMS(pkg.phone, `Paquete #${pkg.id} → ${pkg.estado}`);
   }
 }

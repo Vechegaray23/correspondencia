@@ -7,7 +7,6 @@ export default function RegisterPaquete() {
   const [destinatario, setDestinatario] = useState('')
   const [comentarios, setComentarios]   = useState('')
   const [urgencia, setUrgencia]         = useState(false)
-  const [email, setEmail]               = useState('')
   const [error, setError]               = useState('')
   const navigate = useNavigate()
 
@@ -26,8 +25,7 @@ export default function RegisterPaquete() {
             destinatario,
             comentarios,
             urgencia,
-            email
-          })
+          }),
         }
       )
       const data = await res.json()
@@ -51,7 +49,7 @@ export default function RegisterPaquete() {
             {error && (
               <div className="alert alert-danger">{error}</div>
             )}
-            <form className="form-card" onSubmit={handleSubmit}>
+            <form noValidate className="form-card" onSubmit={handleSubmit}>
               <div className="row justify-content-between text-left">
                 <div className="form-group col-sm-6 flex-column d-flex">
                   <label className="form-control-label px-3">
@@ -97,15 +95,14 @@ export default function RegisterPaquete() {
                 </div>
                 <div className="form-group col-sm-6 flex-column d-flex">
                   <label className="form-control-label px-3">
-                    Correo destinatario<span className="text-danger"> *</span>
+                    Comentarios
                   </label>
-                  <input
-                    type="email"
+                  <textarea
                     className="form-control"
-                    placeholder="ejemplo@dominio.cl"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    required
+                    placeholder="Observaciones (opcional)"
+                    value={comentarios}
+                    onChange={e => setComentarios(e.target.value)}
+                    rows="3"
                   />
                 </div>
               </div>
@@ -130,18 +127,6 @@ export default function RegisterPaquete() {
                       Marcar como urgente
                     </label>
                   </div>
-                </div>
-                <div className="form-group col-sm-6 flex-column d-flex">
-                  <label className="form-control-label px-3">
-                    Comentarios
-                  </label>
-                  <textarea
-                    className="form-control"
-                    placeholder="Observaciones (opcional)"
-                    value={comentarios}
-                    onChange={e => setComentarios(e.target.value)}
-                    rows="3"
-                  />
                 </div>
               </div>
 

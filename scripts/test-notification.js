@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { nuevoPaquete } from '../src/infra/notifications/NotificationService.js';
+import { nuevoPaquete } from '../dist/infra/notifications/NotificationService.js';
 
 (async () => {
   try {

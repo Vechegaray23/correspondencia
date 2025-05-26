@@ -1,5 +1,5 @@
 // src/controllers/v1/healthController.js
-import { mailerUp, smsUp } from '../../infra/notifications/NotificationService';
+import { mailerUp, smsUp } from '../../infra/notifications/NotificationService.js';
 export function getHealth(req, res) {
     res.json({
         status: 'ok',

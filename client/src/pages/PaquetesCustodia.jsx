@@ -12,7 +12,8 @@ export default function PaquetesCustodia() {
       const res  = await fetch(API)
       const data = await res.json()
       if (data.error) throw new Error(data.error)
-      setPaquetes(data)
+      // Mostrar solo paquetes no entregados
+      setPaquetes(data.filter(pkg => pkg.estado !== 'entregado'))
     } catch (err) {
       setError(err.message)
     }
@@ -22,17 +23,16 @@ export default function PaquetesCustodia() {
     fetchPaquetes()
   }, [])
 
-  // Marcar paquete como entregado y enviar notificaciones
+  // Marcar paquete como entregado y enviar notificación automática
   const handleEntregar = async (id) => {
-    const email = window.prompt('Ingresa el correo del destinatario para la notificación:')
-    if (!email) return
     try {
       const res = await fetch(`${API}/${id}/estado`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ estado: 'entregado', email }),
+        body: JSON.stringify({ estado: 'entregado' }),
       })
       if (!res.ok) throw new Error('Error al cambiar estado')
+      // Refrescar lista para actualizar vista
       fetchPaquetes()
     } catch (err) {
       alert(err.message)
@@ -101,7 +101,9 @@ export default function PaquetesCustodia() {
                               <button
                                 className="btn btn-danger btn-sm px-3"
                                 onClick={() => handleDelete(pkg.id)}
-                              ><i className="fas fa-times" /></button>
+                              >
+                                <i className="fas fa-times" />
+                              </button>
                             </td>
                           </tr>
                         )) : (

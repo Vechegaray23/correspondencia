@@ -26,8 +26,6 @@ export default function LoginConserje() {
     } catch (err) {
       setError(err.message);
     }
-
-    
   };
 
   return (
@@ -49,7 +47,7 @@ export default function LoginConserje() {
                     </div>
 
                     <div className="text-center">
-                    <h4 className="mt-1 mb-5 pb-1">Bienvenido</h4>
+                      <h4 className="mt-1 mb-5 pb-1">Bienvenido</h4>
                     </div>
 
                     {error && (
@@ -66,7 +64,7 @@ export default function LoginConserje() {
                           type="text"
                           id="form2Example11"
                           className="form-control"
-                          placeholder="Phone number or email address"
+                          placeholder="Usuario"
                           value={username}
                           onChange={e => setUsername(e.target.value)}
                           required
@@ -94,12 +92,11 @@ export default function LoginConserje() {
                       <div className="text-center pt-1 mb-5 pb-1">
                         <button
                           type="submit"
-                          className="btn text-white btn-block fa-lg  mb-3"
+                          className="btn text-white btn-block fa-lg mb-3"
                           style={{ backgroundColor: 'RoyalBlue' }}
                         >
                           Log in
                         </button>
-
                       </div>
 
                       <div className="d-flex align-items-center justify-content-center pb-4">
@@ -118,13 +115,12 @@ export default function LoginConserje() {
 
                 {/* Lado derecho: contenido estático */}
                 <div className="col-lg-6 d-flex align-items-center" style={{ backgroundColor: 'WhiteSmoke' }} >
-
-                 <img
-                        src="/delivery_guy.png"
-                        style={{ width: '185px' }}
-                        alt="logo"
+                  <img
+                    src="/delivery_guy.png"
+                    style={{ width: '185px' }}
+                    alt="logo"
                   />
-                  <div className=" px-3 py-4 p-md-5 mx-md-4">
+                  <div className="px-3 py-4 p-md-5 mx-md-4">
                     <h4 className="mb-4">We are more than just a company</h4>
                     <p className="small mb-0">
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod

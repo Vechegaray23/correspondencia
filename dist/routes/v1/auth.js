@@ -8,8 +8,11 @@ const JWT_SECRET = process.env.JWT_SECRET || 'reemplaza_en_prod';
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
-        const { rows } = await pool.query('SELECT id, password, role, depto FROM usuarios WHERE username=$1', [username]);
-        if (!rows.length) {
+        // Sólo seleccionamos las columnas que realmente existen
+        const { rows } = await pool.query(`SELECT id, password, role
+         FROM usuarios
+        WHERE username = $1`, [username]);
+        if (rows.length === 0) {
             return res.status(401).json({ error: 'Usuario no encontrado' });
         }
         const user = rows[0];
@@ -17,9 +20,10 @@ router.post('/login', async (req, res) => {
         if (!match) {
             return res.status(401).json({ error: 'Contraseña incorrecta' });
         }
-        const token = jwt.sign({ id: user.id, role: user.role, depto: user.depto }, JWT_SECRET, { expiresIn: '2h' });
-        // Enviamos también depto al frontend
-        res.json({ token, role: user.role, depto: user.depto });
+        // Generamos un token con id y role
+        const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '2h' });
+        // Devolvemos solo lo necesario
+        res.json({ token, role: user.role });
     }
     catch (err) {
         console.error('Auth error:', err);
