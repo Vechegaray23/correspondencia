@@ -48,7 +48,10 @@ export async function sendSMS(to, body) {
 /* ------------------------------------------------------------------ */
 export async function nuevoPaquete(pkg, email) {
     const texto = `Se recibió un paquete para ${pkg.destinatario}.`;
-    await sendEmail(email, `Nuevo paquete #${pkg.id}`, undefined, texto);
+    const html = pkg.qr
+        ? `<p>${texto}</p><img src="${pkg.qr}" alt="QR del paquete" />`
+        : undefined;
+    await sendEmail(email, `Nuevo paquete #${pkg.id}`, html, texto);
     if (sms && pkg.phone) {
         await sendSMS(pkg.phone, `Paquete #${pkg.id} recibido.`);
     }

@@ -65,11 +65,14 @@ export async function sendSMS(to: string, body: string) {
 /* 4.  Casos de uso de negocio                                        */
 /* ------------------------------------------------------------------ */
 export async function nuevoPaquete(
-  pkg: { id: number; destinatario: string; phone?: string },
+  pkg: { id: number; destinatario: string; phone?: string; qr?: string },
   email: string,
 ) {
   const texto = `Se recibió un paquete para ${pkg.destinatario}.`;
-  await sendEmail(email, `Nuevo paquete #${pkg.id}`, undefined, texto);
+  const html = pkg.qr
+    ? `<p>${texto}</p><img src="${pkg.qr}" alt="QR del paquete" />`
+    : undefined;
+  await sendEmail(email, `Nuevo paquete #${pkg.id}`, html, texto);
   if (sms && pkg.phone) {
     await sendSMS(pkg.phone, `Paquete #${pkg.id} recibido.`);
   }

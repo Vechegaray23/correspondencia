@@ -1,4 +1,5 @@
 import pool from '../../db/pool.js';
+import QRCode from 'qrcode';
 import {
   nuevoPaquete,
   estadoActualizado,
@@ -33,11 +34,19 @@ export async function createPaquete(req, res) {
     );
     const pkg = pkgRows[0];
 
+    // Generar código QR con el ID del paquete
+    pkg.qr = await QRCode.toDataURL(String(pkg.id));
+
     /* 3️⃣ – Responder inmediatamente */
     res.status(201).json(pkg);
 
     /* 4️⃣ – Notificación asíncrona (no corta la respuesta) */
-    nuevoPaquete({ id: pkg.id, destinatario: pkg.destinatario, phone }, email)
+    nuevoPaquete({
+        id: pkg.id,
+        destinatario: pkg.destinatario,
+        phone,
+        qr: pkg.qr,
+      }, email)
       .catch(err => console.error('notif nuevoPaquete:', err.message));
 
   } catch (err) {
