@@ -15,6 +15,7 @@ function getDeptoFromToken() {
 export default function PaquetesResidente() {
   const [paquetes, setPaquetes] = useState([]);
   const [error,    setError]    = useState('');
+  const [qrImage,  setQrImage]  = useState('');
   const depto = getDeptoFromToken();          // ej. "101A"
 
   /*──────────── fetch filtrado por depto ────────────*/
@@ -31,6 +32,17 @@ export default function PaquetesResidente() {
       .catch(err => setError(err.message));
   }, [depto]);
 
+  const handleShowQr = async (id) => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/paquetes/${id}/qr/retirar`);
+      if (!res.ok) throw new Error('Error al generar QR');
+      const blob = await res.blob();
+      setQrImage(URL.createObjectURL(blob));
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   /*──────────────────────── render ────────────────────────*/
   return (
     <>
@@ -45,6 +57,12 @@ export default function PaquetesResidente() {
               </h2>
 
               {error && <div className="alert alert-danger">{error}</div>}
+              {qrImage && (
+                <div className="mb-3 text-center">
+                  <img src={qrImage} alt="QR" />
+                  <button className="btn btn-link d-block" onClick={() => setQrImage('')}>Cerrar QR</button>
+                </div>
+              )}
 
               <div
                 className="card shadow-2-strong"
@@ -63,6 +81,7 @@ export default function PaquetesResidente() {
                           <th>Urgencia</th>
                           <th>Fecha ingreso</th>
                           <th>Estado</th>
+                          <th>QR</th>
                         </tr>
                       </thead>
 
@@ -77,12 +96,17 @@ export default function PaquetesResidente() {
                             <td>{p.urgencia ? 'Sí' : 'No'}</td>
                             <td>{new Date(p.fecha_ingreso).toLocaleString()}</td>
                             <td>{p.estado}</td>
+                            <td>
+                              <button className="btn btn-secondary btn-sm" onClick={() => handleShowQr(p.id)}>
+                                Ver QR
+                              </button>
+                            </td>
                           </tr>
                         ))}
 
                         {!paquetes.length && !error && (
                           <tr>
-                            <td colSpan="8" className="text-center py-4">
+                            <td colSpan="9" className="text-center py-4">
                               Sin paquetes para mostrar.
                             </td>
                           </tr>

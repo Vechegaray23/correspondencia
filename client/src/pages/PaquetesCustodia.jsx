@@ -4,6 +4,7 @@ import ConserjeNavbar from '../components/ConserjeNavbar.jsx'
 export default function PaquetesCustodia() {
   const [paquetes, setPaquetes] = useState([])
   const [error, setError]       = useState('')
+  const [qrImage, setQrImage]   = useState('')
 
   const API = import.meta.env.VITE_API_URL + '/api/v1/paquetes'
 
@@ -50,6 +51,17 @@ export default function PaquetesCustodia() {
     }
   }
 
+  const handleShowQr = async (id, accion) => {
+    try {
+      const res = await fetch(`${API}/${id}/qr/${accion}`)
+      if (!res.ok) throw new Error('Error al generar QR')
+      const blob = await res.blob()
+      setQrImage(URL.createObjectURL(blob))
+    } catch (err) {
+      alert(err.message)
+    }
+  }
+
   return (
     <>
       <ConserjeNavbar />
@@ -60,6 +72,15 @@ export default function PaquetesCustodia() {
             <div className="container">
               <h2 className="mb-4 text-white">Paquetes en Custodia</h2>
               {error && <div className="alert alert-danger">{error}</div>}
+              {qrImage && (
+                <div className="mb-3 text-center">
+                  <img src={qrImage} alt="QR" />
+                  <button
+                    className="btn btn-link d-block"
+                    onClick={() => setQrImage('')}
+                  >Cerrar QR</button>
+                </div>
+              )}
 
               <div className="card shadow-2-strong" style={{ backgroundColor: '#f5f7fa' }}>
                 <div className="card-body">
@@ -98,6 +119,14 @@ export default function PaquetesCustodia() {
                                 className="btn btn-success btn-sm me-2"
                                 onClick={() => handleEntregar(pkg.id)}
                               >Entregar</button>
+                              <button
+                                className="btn btn-secondary btn-sm me-2"
+                                onClick={() => handleShowQr(pkg.id, 'agregar')}
+                              >QR agregar</button>
+                              <button
+                                className="btn btn-secondary btn-sm me-2"
+                                onClick={() => handleShowQr(pkg.id, 'retirar')}
+                              >QR retirar</button>
                               <button
                                 className="btn btn-danger btn-sm px-3"
                                 onClick={() => handleDelete(pkg.id)}

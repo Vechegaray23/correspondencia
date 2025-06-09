@@ -8,7 +8,8 @@ import {
   createPaquete,
   getPaquetes,
   deletePaquete,
-  updatePaqueteEstado
+  updatePaqueteEstado,
+  getPaqueteQr
 } from './controllers/v1/paqueteController.js';
 
 import { Router } from 'express';
@@ -44,5 +45,6 @@ app.get   ('/api/v1/paquetes',     getPaquetes);              // lista (opcional
 app.post  ('/api/v1/paquetes',     createPaquete);            // registrar uno nuevo
 app.delete('/api/v1/paquetes/:id', deletePaquete);            // eliminar / marcar entregado
 app.patch ('/api/v1/paquetes/:id/estado', updatePaqueteEstado); // actualizar estado
+app.get   ('/api/v1/paquetes/:id/qr/:accion', getPaqueteQr);     // generar QR
 
 export default app;

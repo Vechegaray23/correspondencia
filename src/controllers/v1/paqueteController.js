@@ -3,6 +3,7 @@ import {
   nuevoPaquete,
   estadoActualizado,
 } from '../../infra/notifications/NotificationService.js';
+import { generateQR } from '../../services/qrcode.js';
 
 // ☆ DEBUG: endpoint para inspeccionar el SQL activo  
 import { Router } from 'express';
@@ -140,5 +141,29 @@ export async function updatePaqueteEstado(req, res) {
   } catch (err) {
     console.error('Error al actualizar paquete:', err);
     return res.status(500).json({ error: 'Error al actualizar paquete' });
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 5. Generar código QR para agregar o retirar paquete                */
+/* ------------------------------------------------------------------ */
+
+export async function getPaqueteQr(req, res) {
+  const { id, accion } = req.params;
+  if (!['agregar', 'retirar'].includes(accion)) {
+    return res.status(400).json({ error: 'Acción inválida' });
+  }
+  try {
+    const data = JSON.stringify({ id: Number(id), accion });
+    const dataUrl = await generateQR(data);
+    const img = Buffer.from(dataUrl.split(',')[1], 'base64');
+    res.writeHead(200, {
+      'Content-Type': 'image/png',
+      'Content-Length': img.length,
+    });
+    res.end(img);
+  } catch (err) {
+    console.error('Error al generar QR:', err);
+    res.status(500).json({ error: 'Error al generar código QR' });
   }
 }
