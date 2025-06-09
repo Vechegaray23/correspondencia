@@ -22,7 +22,7 @@ export default function LoginConserje() {
 
       localStorage.setItem('token', data.token);
       localStorage.setItem('role', data.role);
-      navigate('/dashboard/conserje');
+      navigate('/dashboard/conserje/custodia');
     } catch (err) {
       setError(err.message);
     }

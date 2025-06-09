@@ -28,11 +28,6 @@ export default function ResidenteNavbar() {
         <div className="collapse navbar-collapse" id="dashNavR">
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/dashboard/residente">
-                Inicio
-              </Link>
-            </li>
-            <li className="nav-item">
               <button
                 className="btn btn-link nav-link"
                 onClick={handleLogout}

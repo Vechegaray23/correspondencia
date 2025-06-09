@@ -13,7 +13,7 @@ router.post('/login', async (req, res) => {
   try {
     // Sólo seleccionamos las columnas que realmente existen
     const { rows } = await pool.query(
-      `SELECT id, password, role
+      `SELECT id, password, role, depto
          FROM usuarios
         WHERE username = $1`,
       [username]
@@ -32,13 +32,13 @@ router.post('/login', async (req, res) => {
 
     // Generamos un token con id y role
     const token = jwt.sign(
-      { id: user.id, role: user.role },
+      { id: user.id, role: user.role ,depto: user.depto},
       JWT_SECRET,
       { expiresIn: '2h' }
     );
 
     // Devolvemos solo lo necesario
-    res.json({ token, role: user.role });
+    res.json({ token, role: user.role, depto: user.depto });
   } catch (err) {
     console.error('Auth error:', err);
     res.status(500).json({ error: 'Error interno' });

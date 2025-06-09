@@ -4,23 +4,26 @@ import {
   estadoActualizado,
 } from '../../infra/notifications/NotificationService.js';
 
-// ☆ DEBUG: endpoint para inspeccionar el SQL activo  
-import { Router } from 'express';
-const debugRouter = Router();
-debugRouter.get('/_debug/pkg-sql', (req, res) => {
-  res.json({
-    createQuery: `INSERT INTO paquetes (depto, receptor, destinatario, comentarios, urgencia) VALUES ($1, $2, $3, $4, $5) RETURNING id, destinatario, estado`,
-    userLookup: `SELECT mail AS email, phone FROM usuarios WHERE depto = $1`
-  });
-});
 /* ------------------------------------------------------------------ */
-/* 1. Crear paquete (con notificación automática)                     */
+/* 1. Crear paquete (notifica al residente si existe)                 */
 /* ------------------------------------------------------------------ */
 export async function createPaquete(req, res) {
   const { depto, receptor, destinatario, comentarios, urgencia } = req.body;
 
   try {
-    // 1) Insertar el paquete
+    /* 1️⃣ – Buscar residente dueño del depto */
+    const { rows: userRows } = await pool.query(
+      `SELECT email, phone FROM usuarios WHERE depto = $1`,
+      [depto]
+    );
+
+    if (!userRows.length) {
+      return res.status(400).json({ error: `No existe residente para depto ${depto}` });
+    }
+
+    const { email, phone } = userRows[0];
+
+    /* 2️⃣ – Insertar paquete */
     const { rows: pkgRows } = await pool.query(
       `INSERT INTO paquetes
          (depto, receptor, destinatario, comentarios, urgencia)
@@ -30,26 +33,16 @@ export async function createPaquete(req, res) {
     );
     const pkg = pkgRows[0];
 
-    // 2) Obtener datos de contacto del usuario residente
-    const { rows: userRows } = await pool.query(
-      `SELECT mail AS email, phone FROM usuarios WHERE depto = $1`,
-      [depto]
-    );
+    /* 3️⃣ – Responder inmediatamente */
+    res.status(201).json(pkg);
 
-    if (userRows.length) {
-      const { email, phone } = userRows[0];
+    /* 4️⃣ – Notificación asíncrona (no corta la respuesta) */
+    nuevoPaquete({ id: pkg.id, destinatario: pkg.destinatario, phone }, email)
+      .catch(err => console.error('notif nuevoPaquete:', err.message));
 
-      // 3) Enviar notificación de nuevo paquete (correo y SMS)
-      nuevoPaquete(
-        { id: pkg.id, destinatario: pkg.destinatario, phone },
-        email
-      ).catch(err => console.error('Error notificación nuevoPaquete:', err));
-    }
-
-    return res.status(201).json(pkg);
   } catch (err) {
     console.error('Error al crear paquete:', err);
-    return res.status(500).json({ error: 'Error al crear paquete' });
+    res.status(500).json({ error: 'Error al crear paquete' });
   }
 }
 
@@ -72,16 +65,13 @@ export async function getPaquetes(req, res) {
         FROM paquetes`;
 
     const { rows } = depto
-      ? await pool.query(
-          `${baseSelect} WHERE depto = $1 ORDER BY fecha_ingreso DESC`,
-          [depto]
-        )
+      ? await pool.query(`${baseSelect} WHERE depto = $1 ORDER BY fecha_ingreso DESC`, [depto])
       : await pool.query(`${baseSelect} ORDER BY fecha_ingreso DESC`);
 
-    return res.json(rows);
+    res.json(rows);
   } catch (err) {
     console.error('Error al listar paquetes:', err);
-    return res.status(500).json({ error: 'Error al listar paquetes' });
+    res.status(500).json({ error: 'Error al listar paquetes' });
   }
 }
 
@@ -93,10 +83,10 @@ export async function deletePaquete(req, res) {
 
   try {
     await pool.query('DELETE FROM paquetes WHERE id = $1', [id]);
-    return res.json({ success: true });
+    res.json({ success: true });
   } catch (err) {
     console.error('Error al eliminar paquete:', err);
-    return res.status(500).json({ error: 'Error al eliminar paquete' });
+    res.status(500).json({ error: 'Error al eliminar paquete' });
   }
 }
 
@@ -121,24 +111,22 @@ export async function updatePaqueteEstado(req, res) {
     }
 
     const pkg = rows[0];
+    res.json(pkg);                 // respondemos primero
 
-    // Obtener datos de contacto del residente
+    /* Notificar después */
     const { rows: userRows } = await pool.query(
-      `SELECT mail AS email, phone FROM usuarios WHERE depto = $1`,
+      `SELECT email, phone FROM usuarios WHERE depto = $1`,
       [pkg.depto]
     );
 
     if (userRows.length) {
       const { email, phone } = userRows[0];
-      estadoActualizado(
-        { id: pkg.id, estado: pkg.estado, phone },
-        email
-      ).catch(err => console.error('Error notificación estadoActualizado:', err));
+      estadoActualizado({ id: pkg.id, estado: pkg.estado, phone }, email)
+        .catch(err => console.error('notif estadoActualizado:', err.message));
     }
 
-    return res.json(pkg);
   } catch (err) {
     console.error('Error al actualizar paquete:', err);
-    return res.status(500).json({ error: 'Error al actualizar paquete' });
+    res.status(500).json({ error: 'Error al actualizar paquete' });
   }
 }

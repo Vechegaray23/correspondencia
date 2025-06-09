@@ -7,7 +7,7 @@ import Health from './pages/Health.jsx';
 import RegisterPaquete from './pages/RegisterPaquete.jsx';
 import LoginConserje from './pages/LoginConserje.jsx';
 import LoginResidente from './pages/LoginResidente.jsx';
-import DashboardConserje from './pages/DashboardConserje.jsx';
+
 import DashboardResidente from './pages/DashboardResidente.jsx';
 import DashboardConserjeRegister from './pages/DashboardConserjeRegister.jsx';
 
@@ -62,7 +62,6 @@ export default function App() {
           <Route path="/login/residente" element={<LoginResidente />} />
 
           {/* Dashboards */}
-          <Route path="/dashboard/conserje" element={<DashboardConserje />} />
           <Route path="/dashboard/conserje/custodia" element={<PaquetesCustodia />} />
           <Route
             path="/dashboard/conserje/register"

@@ -9,7 +9,7 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
         // Sólo seleccionamos las columnas que realmente existen
-        const { rows } = await pool.query(`SELECT id, password, role
+        const { rows } = await pool.query(`SELECT id, password, role, depto
          FROM usuarios
         WHERE username = $1`, [username]);
         if (rows.length === 0) {
@@ -21,9 +21,9 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Contraseña incorrecta' });
         }
         // Generamos un token con id y role
-        const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '2h' });
+        const token = jwt.sign({ id: user.id, role: user.role, depto: user.depto }, JWT_SECRET, { expiresIn: '2h' });
         // Devolvemos solo lo necesario
-        res.json({ token, role: user.role });
+        res.json({ token, role: user.role, depto: user.depto });
     }
     catch (err) {
         console.error('Auth error:', err);

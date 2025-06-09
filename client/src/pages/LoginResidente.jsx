@@ -1,40 +1,42 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// client/src/pages/LoginResidente.jsx
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function LoginResidente () {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error,    setError]    = useState('');
-  const navigate = useNavigate();
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error,    setError]    = useState('')
+  const navigate = useNavigate()
 
   async function handleSubmit (e) {
-    e.preventDefault();
-    setError('');
+    e.preventDefault()
+    setError('')
     try {
-      const url = import.meta.env.VITE_API_URL + '/api/v1/auth/login';
+      const url = import.meta.env.VITE_API_URL + '/api/v1/auth/login'
       const res = await fetch(url, {
         method : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body   : JSON.stringify({ username, password })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || res.statusText);
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || res.statusText)
 
-      /*  ⬇️  Guarda token, role y depto para el dashboard  */
-      localStorage.setItem('token',  data.token);
-      localStorage.setItem('role',   data.role);
-      localStorage.setItem('depto',  data.depto);
+      /* ───────── Guardar credenciales limpias ───────── */
+      localStorage.clear()                      // 👈  limpia antes
+      localStorage.setItem('token',  data.token)
+      localStorage.setItem('role',   data.role)
+      localStorage.setItem('depto',  data.depto || '') // fallback
 
-      navigate('/dashboard/residente');
+      navigate('/dashboard/residente')
     } catch (err) {
-      setError(err.message);
+      setError(err.message)
     }
   }
 
   return (
     <section
       className="container-fluid px-0"
-      style={{ backgroundColor: 'RoyalBlue', minHeight: '100vh' }}
+      style={{ backgroundColor: '', minHeight: '100vh' }}
     >
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
@@ -136,5 +138,5 @@ export default function LoginResidente () {
         </div>
       </div>
     </section>
-  );
+  )
 }
