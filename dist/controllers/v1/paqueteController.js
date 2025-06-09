@@ -1,4 +1,6 @@
 import pool from '../../db/pool.js';
+import QRCode from 'qrcode';
+
 import { nuevoPaquete, estadoActualizado, } from '../../infra/notifications/NotificationService.js';
 /* ------------------------------------------------------------------ */
 /* 1. Crear paquete (notifica al residente si existe)                 */
@@ -18,6 +20,9 @@ export async function createPaquete(req, res) {
        VALUES ($1, $2, $3, $4, $5)
        RETURNING id, destinatario, estado`, [depto, receptor, destinatario, comentarios, urgencia]);
         const pkg = pkgRows[0];
+        // Generar código QR con el ID del paquete
+        pkg.qr = await QRCode.toDataURL(String(pkg.id));
+        
         /* 3️⃣ – Responder inmediatamente */
         res.status(201).json(pkg);
         /* 4️⃣ – Notificación asíncrona (no corta la respuesta) */

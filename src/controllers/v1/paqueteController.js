@@ -1,4 +1,6 @@
 import pool from '../../db/pool.js';
+import QRCode from 'qrcode';
+
 import {
   nuevoPaquete,
   estadoActualizado,
@@ -32,6 +34,9 @@ export async function createPaquete(req, res) {
       [depto, receptor, destinatario, comentarios, urgencia]
     );
     const pkg = pkgRows[0];
+
+    // Generar código QR con el ID del paquete
+    pkg.qr = await QRCode.toDataURL(String(pkg.id));
 
     /* 3️⃣ – Responder inmediatamente */
     res.status(201).json(pkg);
