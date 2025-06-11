@@ -37,6 +37,11 @@ export default function ConserjeNavbar() {
               </Link>
             </li>
             <li className="nav-item">
+              <Link className="nav-link" to="/dashboard/conserje/entregar">
+                Entregar Paquete
+              </Link>
+            </li>
+            <li className="nav-item">
               <button
                 className="btn btn-link nav-link"
                 onClick={handleLogout}
