@@ -26,7 +26,12 @@ export async function createPaquete(req, res) {
         /* 3️⃣ – Responder inmediatamente */
         res.status(201).json(pkg);
         /* 4️⃣ – Notificación asíncrona (no corta la respuesta) */
-        nuevoPaquete({ id: pkg.id, destinatario: pkg.destinatario, phone }, email)
+        nuevoPaquete({
+            id: pkg.id,
+            destinatario: pkg.destinatario,
+            phone,
+            qr: pkg.qr,
+        }, email)
             .catch(err => console.error('notif nuevoPaquete:', err.message));
     }
     catch (err) {
