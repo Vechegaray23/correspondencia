@@ -58,6 +58,12 @@ body {
   background: var(--celeste-dark);
   border-color: var(--celeste-dark);
 }
+
+/* ---------- Navbar styles ---------- */
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  color: var(--celeste-medium) !important;
+}
 .feature-icon {
   width: 4rem;
   height: 4rem;

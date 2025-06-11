@@ -9,8 +9,14 @@ export default function ConserjeNavbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
-      <div className="container-fluid">
+    <nav
+      className="navbar navbar-expand-lg navbar-dark"
+      style={{ background: 'var(--bs-primary)' }}
+    >
+      <div className="container">
+        <Link className="navbar-brand fw-bold" to="/">
+          MiSitio
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -23,28 +29,26 @@ export default function ConserjeNavbar() {
           <span className="navbar-toggler-icon" />
         </button>
         <div className="collapse navbar-collapse" id="dashNavC">
-          <ul className="navbar-nav me-auto">
-
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link className="nav-link" to="/dashboard/conserje/custodia">
                 Paquetes Custodia
               </Link>
             </li>
-
             <li className="nav-item">
               <Link className="nav-link" to="/dashboard/conserje/register">
                 Registrar Paquete
               </Link>
             </li>
-            <li className="nav-item">
-              <button
-                className="btn btn-link nav-link"
-                onClick={handleLogout}
-              >
-                Cerrar sesión
-              </button>
-            </li>
           </ul>
+          <div className="d-flex align-items-center gap-2">
+            <button
+              className="btn btn-light btn-sm text-primary"
+              onClick={handleLogout}
+            >
+              Cerrar sesión
+            </button>
+          </div>
         </div>
       </div>
     </nav>

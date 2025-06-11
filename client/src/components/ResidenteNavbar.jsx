@@ -9,9 +9,12 @@ export default function ResidenteNavbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/dashboard/residente">
+    <nav
+      className="navbar navbar-expand-lg navbar-dark"
+      style={{ background: 'var(--bs-primary)' }}
+    >
+      <div className="container">
+        <Link className="navbar-brand fw-bold" to="/dashboard/residente">
           Panel Residente
         </Link>
         <button
@@ -26,16 +29,15 @@ export default function ResidenteNavbar() {
           <span className="navbar-toggler-icon" />
         </button>
         <div className="collapse navbar-collapse" id="dashNavR">
-          <ul className="navbar-nav me-auto">
-            <li className="nav-item">
-              <button
-                className="btn btn-link nav-link"
-                onClick={handleLogout}
-              >
-                Cerrar sesión
-              </button>
-            </li>
-          </ul>
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+          <div className="d-flex align-items-center gap-2">
+            <button
+              className="btn btn-light btn-sm text-primary"
+              onClick={handleLogout}
+            >
+              Cerrar sesión
+            </button>
+          </div>
         </div>
       </div>
     </nav>
