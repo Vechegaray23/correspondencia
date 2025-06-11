@@ -5,8 +5,8 @@ import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import Health from './pages/Health.jsx';
 import RegisterPaquete from './pages/RegisterPaquete.jsx';
-import Login from './pages/Login.jsx';
 
+import Login from './pages/Login.jsx';
 
 import DashboardResidente from './pages/DashboardResidente.jsx';
 import DashboardConserjeRegister from './pages/DashboardConserjeRegister.jsx';
@@ -49,31 +49,19 @@ export default function App() {
           </div>
         </nav>
       )}
+      <Routes>
+        {/* Login */}
+        <Route path="/login" element={<Login />} />
+        {/* Dashboards */}
+        <Route path="/dashboard/conserje/custodia" element={<PaquetesCustodia />} />
+        <Route path="/dashboard/conserje/register" element={<DashboardConserjeRegister />} />
+        <Route path="/dashboard/residente" element={<DashboardResidente />} />
 
-      <div className="container">
-        <Routes>
-          {/* Login */}
-          <Route path="/login" element={<Login />} />
-
-
-
-          {/* Dashboards */}
-          <Route path="/dashboard/conserje/custodia" element={<PaquetesCustodia />} />
-          <Route
-            path="/dashboard/conserje/register"
-            element={<DashboardConserjeRegister />}
-          />
-          <Route
-            path="/dashboard/residente"
-            element={<DashboardResidente />}
-          />
-
-          {/* Páginas públicas */}
-          <Route path="/" element={<Home />} />
-          <Route path="/health" element={<Health />} />
-          <Route path="/register" element={<RegisterPaquete />} />
-        </Routes>
-      </div>
+        {/* Páginas públicas */}
+        <Route path="/" element={<Home />} />
+        <Route path="/health" element={<Health />} />
+        <Route path="/register" element={<RegisterPaquete />} />
+      </Routes>
     </>
   );
 }
