@@ -5,8 +5,7 @@ import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import Health from './pages/Health.jsx';
 import RegisterPaquete from './pages/RegisterPaquete.jsx';
-import LoginConserje from './pages/LoginConserje.jsx';
-import LoginResidente from './pages/LoginResidente.jsx';
+import Login from './pages/Login.jsx';
 
 import DashboardResidente from './pages/DashboardResidente.jsx';
 import DashboardConserjeRegister from './pages/DashboardConserjeRegister.jsx';
@@ -40,13 +39,8 @@ export default function App() {
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav me-auto mb-2 mb-sm-0">
                 <li className="nav-item">
-                  <Link className="nav-link" to="/login/conserje">
-                    Login Conserje
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/login/residente">
-                    Login Residente
+                  <Link className="nav-link" to="/login">
+                    Login
                   </Link>
                 </li>
               </ul>
@@ -58,8 +52,7 @@ export default function App() {
       <div className="container">
         <Routes>
           {/* Login */}
-          <Route path="/login/conserje" element={<LoginConserje />} />
-          <Route path="/login/residente" element={<LoginResidente />} />
+          <Route path="/login" element={<Login />} />
 
           {/* Dashboards */}
           <Route path="/dashboard/conserje/custodia" element={<PaquetesCustodia />} />
