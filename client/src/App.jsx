@@ -10,6 +10,7 @@ import Login from './pages/Login.jsx';
 
 import DashboardResidente from './pages/DashboardResidente.jsx';
 import DashboardConserjeRegister from './pages/DashboardConserjeRegister.jsx';
+import EntregarPaquete from './pages/EntregarPaquete.jsx';
 
 import PaquetesCustodia from './pages/PaquetesCustodia.jsx';
 
@@ -55,6 +56,7 @@ export default function App() {
         {/* Dashboards */}
         <Route path="/dashboard/conserje/custodia" element={<PaquetesCustodia />} />
         <Route path="/dashboard/conserje/register" element={<DashboardConserjeRegister />} />
+        <Route path="/dashboard/conserje/entregar" element={<EntregarPaquete />} />
         <Route path="/dashboard/residente" element={<DashboardResidente />} />
 
         {/* Páginas públicas */}
