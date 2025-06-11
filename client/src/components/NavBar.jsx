@@ -20,13 +20,7 @@ export default function NavBar() {
         </button>
         <div className="collapse navbar-collapse" id="mainNavbar">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to="/">Inicio</Link>
 
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/register">Registrar paquete</Link>
-            </li>
           </ul>
           <div className="d-flex align-items-center gap-2">
             <Link to="/login" className="btn btn-light btn-sm text-primary">Iniciar sesión</Link>
