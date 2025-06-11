@@ -93,3 +93,27 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
+
+
+/* Login page styles */
+.login-card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(8, 59, 102, 0.15);
+}
+
+.login-btn-primary {
+  background: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: #fff;
+}
+
+.login-btn-primary:hover {
+  background: var(--celeste-dark);
+  border-color: var(--celeste-dark);
+}
+
+.login-form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  border-color: var(--bs-primary);
+}
