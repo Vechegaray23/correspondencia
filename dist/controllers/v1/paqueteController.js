@@ -9,7 +9,7 @@ export async function createPaquete(req, res) {
     const { depto, receptor, destinatario, comentarios, urgencia } = req.body;
     try {
         /* 1️⃣ – Buscar residente dueño del depto */
-        const { rows: userRows } = await pool.query(`SELECT email, phone FROM usuarios WHERE depto = $1`, [depto]);
+        const { rows: userRows } = await pool.query(`SELECT mail AS email, phone FROM usuarios WHERE depto = $1`, [depto]);
         if (!userRows.length) {
             return res.status(400).json({ error: `No existe residente para depto ${depto}` });
         }
@@ -96,7 +96,7 @@ export async function updatePaqueteEstado(req, res) {
         const pkg = rows[0];
         res.json(pkg); // respondemos primero
         /* Notificar después */
-        const { rows: userRows } = await pool.query(`SELECT email, phone FROM usuarios WHERE depto = $1`, [pkg.depto]);
+        const { rows: userRows } = await pool.query(`SELECT mail AS email, phone FROM usuarios WHERE depto = $1`, [pkg.depto]);
         if (userRows.length) {
             const { email, phone } = userRows[0];
             estadoActualizado({ id: pkg.id, estado: pkg.estado, phone }, email)

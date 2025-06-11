@@ -15,7 +15,7 @@ export async function createPaquete(req, res) {
   try {
     /* 1️⃣ – Buscar residente dueño del depto */
     const { rows: userRows } = await pool.query(
-      `SELECT email, phone FROM usuarios WHERE depto = $1`,
+      `SELECT mail AS email, phone FROM usuarios WHERE depto = $1`,
       [depto]
     );
 
@@ -125,7 +125,7 @@ export async function updatePaqueteEstado(req, res) {
 
     /* Notificar después */
     const { rows: userRows } = await pool.query(
-      `SELECT email, phone FROM usuarios WHERE depto = $1`,
+      `SELECT mail AS email, phone FROM usuarios WHERE depto = $1`,
       [pkg.depto]
     );
 
