@@ -1,31 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ConserjeNavbar from '../components/ConserjeNavbar.jsx';
+import { Html5Qrcode } from 'html5-qrcode';
 
 export default function EntregarPaquete() {
   const [result, setResult] = useState('');
   const [scanning, setScanning] = useState(false);
   const [message, setMessage] = useState('');
-  const [Html5Qrcode, setHtml5Qrcode] = useState(null);
   const html5QrCodeRef = useRef(null);
   const qrRegionId = 'qr-reader';
   const API = import.meta.env.VITE_API_URL + '/api/v1/paquetes';
 
-  // Cargar la librería cuando se monta el componente
   useEffect(() => {
-    import('html5-qrcode')
-      .then((m) => setHtml5Qrcode(() => m.Html5Qrcode))
-      .catch((err) => setMessage(`No se pudo cargar el lector: ${err.message}`));
+    return () => {
+      if (html5QrCodeRef.current) {
+        html5QrCodeRef.current.stop().catch(() => {});
+        html5QrCodeRef.current.clear();
+      }
+    };
   }, []);
-
-  // Iniciar automáticamente una vez que la biblioteca esté cargada
-  useEffect(() => {
-    if (Html5Qrcode && !scanning) {
-      startScanning().catch(() => {
-        setMessage('No se pudo iniciar el escáner');
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [Html5Qrcode]);
 
   const onScanSuccess = async (decodedText) => {
     setResult(decodedText);
@@ -50,8 +42,8 @@ export default function EntregarPaquete() {
   };
 
   const startScanning = async () => {
+    if (scanning) return;
     try {
-      if (!Html5Qrcode) throw new Error('Lector no disponible');
       html5QrCodeRef.current = new Html5Qrcode(qrRegionId);
       await html5QrCodeRef.current.start(
         { facingMode: 'environment' },
@@ -59,8 +51,9 @@ export default function EntregarPaquete() {
         onScanSuccess,
       );
       setScanning(true);
+      setMessage('');
     } catch (err) {
-      alert('No se pudo acceder a la cámara: ' + err.message);
+      setMessage('No se pudo acceder a la cámara: ' + err.message);
     }
   };
 
@@ -84,14 +77,9 @@ export default function EntregarPaquete() {
               <div className="card-body">
                 <h3 className="section-header mb-2">Escáner de código QR</h3>
                 <p className="mb-4">
-                  Apunta la cámara al código QR para escanearlo automáticamente.
+                  Presiona <strong>Iniciar</strong> y apunta la cámara al código
+                  QR para escanearlo.
                 </p>
-
-                {!Html5Qrcode && (
-                  <div className="alert alert-secondary mb-3" role="alert">
-                    Cargando lector...
-                  </div>
-                )}
 
                 {message && (
                   <div className="alert alert-info" role="alert">
@@ -124,7 +112,7 @@ export default function EntregarPaquete() {
                     id="btn-start"
                     className="btn btn-primary flex-fill"
                     onClick={startScanning}
-                    disabled={scanning || !Html5Qrcode}
+                    disabled={scanning}
                   >
                     <i className="bi bi-camera-video" /> Iniciar
                   </button>
