@@ -5,30 +5,27 @@ export default function EntregarPaquete() {
   const [result, setResult] = useState('');
   const [scanning, setScanning] = useState(false);
   const [message, setMessage] = useState('');
-  const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [Html5Qrcode, setHtml5Qrcode] = useState(null);
   const html5QrCodeRef = useRef(null);
   const qrRegionId = 'qr-reader';
   const API = import.meta.env.VITE_API_URL + '/api/v1/paquetes';
 
+  // Cargar la librería cuando se monta el componente
   useEffect(() => {
-    const scriptId = 'html5-qrcode-lib';
-    let script = document.getElementById(scriptId);
-
-    const markLoaded = () => setScriptLoaded(true);
-
-    if (!script) {
-      script = document.createElement('script');
-      script.id = scriptId;
-      script.src = 'https://unpkg.com/html5-qrcode@2.3.9/html5-qrcode.min.js';
-      script.async = true;
-      script.onload = markLoaded;
-      document.body.appendChild(script);
-    } else if (window.Html5Qrcode) {
-      markLoaded();
-    } else {
-      script.onload = markLoaded;
-    }
+    import('html5-qrcode')
+      .then((m) => setHtml5Qrcode(() => m.Html5Qrcode))
+      .catch((err) => setMessage(`No se pudo cargar el lector: ${err.message}`));
   }, []);
+
+  // Iniciar automáticamente una vez que la biblioteca esté cargada
+  useEffect(() => {
+    if (Html5Qrcode && !scanning) {
+      startScanning().catch(() => {
+        setMessage('No se pudo iniciar el escáner');
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Html5Qrcode]);
 
   const onScanSuccess = async (decodedText) => {
     setResult(decodedText);
@@ -54,9 +51,7 @@ export default function EntregarPaquete() {
 
   const startScanning = async () => {
     try {
-      if (!scriptLoaded) throw new Error('Biblioteca de QR todavía se está cargando');
-      const { Html5Qrcode } = window;
-      if (!Html5Qrcode) throw new Error('Biblioteca no cargada');
+      if (!Html5Qrcode) throw new Error('Lector no disponible');
       html5QrCodeRef.current = new Html5Qrcode(qrRegionId);
       await html5QrCodeRef.current.start(
         { facingMode: 'environment' },
@@ -65,7 +60,7 @@ export default function EntregarPaquete() {
       );
       setScanning(true);
     } catch (err) {
-      alert('No se pudo acceder a la cámara: ' + err);
+      alert('No se pudo acceder a la cámara: ' + err.message);
     }
   };
 
@@ -91,6 +86,12 @@ export default function EntregarPaquete() {
                 <p className="mb-4">
                   Apunta la cámara al código QR para escanearlo automáticamente.
                 </p>
+
+                {!Html5Qrcode && (
+                  <div className="alert alert-secondary mb-3" role="alert">
+                    Cargando lector...
+                  </div>
+                )}
 
                 {message && (
                   <div className="alert alert-info" role="alert">
@@ -123,7 +124,7 @@ export default function EntregarPaquete() {
                     id="btn-start"
                     className="btn btn-primary flex-fill"
                     onClick={startScanning}
-                    disabled={scanning}
+                    disabled={scanning || !Html5Qrcode}
                   >
                     <i className="bi bi-camera-video" /> Iniciar
                   </button>
