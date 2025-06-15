@@ -5,18 +5,28 @@ export default function EntregarPaquete() {
   const [result, setResult] = useState('');
   const [scanning, setScanning] = useState(false);
   const [message, setMessage] = useState('');
+  const [scriptLoaded, setScriptLoaded] = useState(false);
   const html5QrCodeRef = useRef(null);
   const qrRegionId = 'qr-reader';
   const API = import.meta.env.VITE_API_URL + '/api/v1/paquetes';
 
   useEffect(() => {
     const scriptId = 'html5-qrcode-lib';
-    if (!document.getElementById(scriptId)) {
-      const script = document.createElement('script');
+    let script = document.getElementById(scriptId);
+
+    const markLoaded = () => setScriptLoaded(true);
+
+    if (!script) {
+      script = document.createElement('script');
       script.id = scriptId;
       script.src = 'https://unpkg.com/html5-qrcode@2.3.9/html5-qrcode.min.js';
       script.async = true;
+      script.onload = markLoaded;
       document.body.appendChild(script);
+    } else if (window.Html5Qrcode) {
+      markLoaded();
+    } else {
+      script.onload = markLoaded;
     }
   }, []);
 
@@ -44,6 +54,7 @@ export default function EntregarPaquete() {
 
   const startScanning = async () => {
     try {
+      if (!scriptLoaded) throw new Error('Biblioteca de QR todavía se está cargando');
       const { Html5Qrcode } = window;
       if (!Html5Qrcode) throw new Error('Biblioteca no cargada');
       html5QrCodeRef.current = new Html5Qrcode(qrRegionId);
@@ -77,7 +88,9 @@ export default function EntregarPaquete() {
             <div className="card bg-white">
               <div className="card-body">
                 <h3 className="section-header mb-2">Escáner de código QR</h3>
-                <p className="mb-4">Apunta la cámara al código QR para escanearlo automáticamente.</p>
+                <p className="mb-4">
+                  Apunta la cámara al código QR para escanearlo automáticamente.
+                </p>
 
                 {message && (
                   <div className="alert alert-info" role="alert">
@@ -85,10 +98,16 @@ export default function EntregarPaquete() {
                   </div>
                 )}
 
-                <div id="qr-reader" className="mb-3" style={{ width: '100%', minHeight: '300px', borderRadius: '0.5rem' }} />
+                <div
+                  id="qr-reader"
+                  className="mb-3"
+                  style={{ width: '100%', minHeight: '300px', borderRadius: '0.5rem' }}
+                />
 
                 <div className="input-group mb-3">
-                  <span className="input-group-text"><i className="bi bi-qr-code-scan" /></span>
+                  <span className="input-group-text">
+                    <i className="bi bi-qr-code-scan" />
+                  </span>
                   <input
                     id="qr-result"
                     type="text"
