@@ -2,7 +2,7 @@
 
 [build]
   base    = "client"         # Trabaja dentro de client/
-  command = "npm ci && npm run build"
+  command = "npm install && npm run build"
   publish = "dist"           # Publica client/dist (no client/client/dist)
 
 # Variables de entorno, si las necesitas
