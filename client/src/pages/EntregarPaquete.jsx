@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ConserjeNavbar from '../components/ConserjeNavbar.jsx';
-import { Html5Qrcode } from 'html5-qrcode';
 
 export default function EntregarPaquete() {
   const [result, setResult] = useState('');
+  const [Html5Qrcode, setHtml5Qrcode] = useState(null);
   const [scanning, setScanning] = useState(false);
   const [message, setMessage] = useState('');
   const html5QrCodeRef = useRef(null);
@@ -11,6 +11,10 @@ export default function EntregarPaquete() {
   const API = import.meta.env.VITE_API_URL + '/api/v1/paquetes';
 
   useEffect(() => {
+    import('html5-qrcode')
+      .then((m) => setHtml5Qrcode(() => m.Html5Qrcode))
+      .catch((err) => setMessage(`No se pudo cargar el lector: ${err.message}`));
+
     return () => {
       if (html5QrCodeRef.current) {
         html5QrCodeRef.current.stop().catch(() => {});
@@ -18,6 +22,15 @@ export default function EntregarPaquete() {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (Html5Qrcode && !scanning) {
+      startScanning().catch(() => {
+        setMessage('No se pudo iniciar el escáner');
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Html5Qrcode]);
 
   const onScanSuccess = async (decodedText) => {
     setResult(decodedText);
@@ -44,6 +57,7 @@ export default function EntregarPaquete() {
   const startScanning = async () => {
     if (scanning) return;
     try {
+      if (!Html5Qrcode) throw new Error('Lector no disponible');
       html5QrCodeRef.current = new Html5Qrcode(qrRegionId);
       await html5QrCodeRef.current.start(
         { facingMode: 'environment' },
@@ -79,7 +93,14 @@ export default function EntregarPaquete() {
                 <p className="mb-4">
                   Presiona <strong>Iniciar</strong> y apunta la cámara al código
                   QR para escanearlo.
+
                 </p>
+                {!Html5Qrcode && (
+                  <div className="alert alert-secondary mb-3" role="alert">
+                    Cargando lector...
+                  </div>
+                )}
+
 
 
                 {message && (
@@ -113,7 +134,7 @@ export default function EntregarPaquete() {
                     id="btn-start"
                     className="btn btn-primary flex-fill"
                     onClick={startScanning}
-                    disabled={scanning}
+                    disabled={scanning || !Html5Qrcode}
                   >
                     <i className="bi bi-camera-video" /> Iniciar
                   </button>
