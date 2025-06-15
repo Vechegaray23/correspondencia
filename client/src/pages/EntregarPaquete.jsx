@@ -4,6 +4,8 @@ import { Html5Qrcode } from 'html5-qrcode';
 
 export default function EntregarPaquete() {
   const [result, setResult] = useState('');
+  const [Html5Qrcode, setHtml5Qrcode] = useState(null);
+
   const [scanning, setScanning] = useState(false);
   const [message, setMessage] = useState('');
   const html5QrCodeRef = useRef(null);
@@ -11,6 +13,10 @@ export default function EntregarPaquete() {
   const API = import.meta.env.VITE_API_URL + '/api/v1/paquetes';
 
   useEffect(() => {
+    import('html5-qrcode')
+      .then((m) => setHtml5Qrcode(() => m.Html5Qrcode))
+      .catch((err) => setMessage(`No se pudo cargar el lector: ${err.message}`));
+
     return () => {
       if (html5QrCodeRef.current) {
         html5QrCodeRef.current.stop().catch(() => {});
