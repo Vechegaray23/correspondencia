@@ -12,9 +12,14 @@ table th {
 }
 
 .card {
-  border-radius: 0.5rem;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(8, 59, 102, 0.15);
 }
 
+.card-title {
+  color: var(--bs-primary);
+}
 .mask-custom {
 
   background: rgba(24, 24, 16, 0.2);
