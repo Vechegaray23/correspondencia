@@ -134,9 +134,9 @@ export default function RegisterPaquete() {
               <button
                 type="button"
                 className="btn btn-secondary mt-3"
-                onClick={() => navigate('/dashboard/conserje/custodia')}
+                onClick={() => navigate('/dashboard/conserje')}
               >
-                Ir a Custodia
+                Ir al Inicio
               </button>
             </div>
           )}

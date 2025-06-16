@@ -28,7 +28,7 @@ export default function Login () {
         localStorage.setItem('depto', data.depto || '')
         navigate('/dashboard/residente')
       } else {
-        navigate('/dashboard/conserje/custodia')
+        navigate('/dashboard/conserje')
       }
     } catch (err) {
       setError(err.message)

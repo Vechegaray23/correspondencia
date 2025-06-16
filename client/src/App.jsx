@@ -17,7 +17,6 @@ import DashboardConserjeRegister from './pages/DashboardConserjeRegister.jsx';
 import EntregarPaquete from './pages/EntregarPaquete.jsx';
 
 
-import PaquetesCustodia from './pages/PaquetesCustodia.jsx';
 
 export default function App() {
   const { pathname } = useLocation();
@@ -33,8 +32,6 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         {/* Dashboards */}
         <Route path="/dashboard/conserje" element={<DashboardConserje />} />
-
-        <Route path="/dashboard/conserje/custodia" element={<PaquetesCustodia />} />
         <Route path="/dashboard/conserje/register" element={<DashboardConserjeRegister />} />
         <Route path="/dashboard/conserje/entregar" element={<EntregarPaquete />} />
 
