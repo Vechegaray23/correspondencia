@@ -48,7 +48,7 @@ export default function EntregarPaquete() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error al actualizar');
       setMessage(`Paquete #${data.id ?? decodedText} entregado`);
-      navigate('/dashboard/conserje/custodia');
+      navigate('/dashboard/conserje');
 
     } catch (err) {
       setMessage(`Error: ${err.message}`);
