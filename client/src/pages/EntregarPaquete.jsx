@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import ConserjeNavbar from '../components/ConserjeNavbar.jsx';
 import { Html5Qrcode } from 'html5-qrcode';
@@ -8,8 +7,6 @@ import { Html5Qrcode } from 'html5-qrcode';
 export default function EntregarPaquete() {
   const [result, setResult] = useState('');
   const [Html5Qrcode, setHtml5Qrcode] = useState(null);
-
-  const navigate = useNavigate();
 
 
   const [scanning, setScanning] = useState(false);
@@ -48,7 +45,6 @@ export default function EntregarPaquete() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error al actualizar');
       setMessage(`Paquete #${data.id ?? decodedText} entregado`);
-      navigate('/dashboard/conserje');
 
     } catch (err) {
       setMessage(`Error: ${err.message}`);
