@@ -13,6 +13,7 @@ import Login from './pages/Login.jsx';
 import DashboardResidente from './pages/DashboardResidente.jsx';
 import DashboardConserje from './pages/DashboardConserje.jsx';
 
+
 import DashboardConserjeRegister from './pages/DashboardConserjeRegister.jsx';
 import EntregarPaquete from './pages/EntregarPaquete.jsx';
 
